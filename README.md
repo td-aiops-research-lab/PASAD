@@ -1,2 +1,74 @@
-# PASAD
-Privacy-Aware SQL Anomaly Detector
+# A Two-Stage Privacy-Aware SQL Anomaly Detector for Inline Database Defense
+
+[![Paper](https://img.shields.io/badge/Paper-MAPR_2026-blue)](https://example.com/placeholder-link)
+
+> **[A Two-Stage Privacy-Aware SQL Anomaly Detector for Inline Database Defense](https://example.com/placeholder-link)**  
+> Anonymous Authors  
+> *Proceedings of the 2026 International Conference on Multimedia Analysis and Pattern Recognition (MAPR)*
+
+This repository contains the official experimental implementation for the 2026 International Conference on Multimedia Analysis and Pattern Recognition (MAPR) publication.
+
+## Overview
+
+The framework is designed for inline database defenses to intercept SQL injection (SQLi) attacks and execution performance anomalies under strict latency constraints. The architecture is structured into two sequential processing phases:
+
+1. **Phase 1 (Deterministic Screening)**: Employs deterministic rules via regular expression matching to immediately filter explicit SQL injection signatures and tautological constructs.
+2. **Phase 2 (Machine Learning)**: Evaluates queries bypassing Phase 1 using an eXtreme Gradient Boosting (XGBoost) classifier. It operates on an 11-dimensional bipartite feature space, combining dynamic metrics extracted from the database optimizer with static structural features derived from a pseudonymized query format.
+
+## 1. Data Synthesis and Ingestion
+
+The dataset construction pipeline generates a hybrid dataset comprising operational baselines and simulated anomalies, ensuring valid execution plans via real-time database optimizer validation.
+
+- `tpch_generator_csv.py` & `tpch_generator_sql.py`: Python utilities to synthesize TPC-H compliant dataset records. These scripts serve as accessible alternatives to the standard C-based `dbgen` tool, allowing researchers to rapidly populate the baseline database required for the optimizer's execution plan estimations.
+- `hybrid_sqli_loader.py`: Synthesizes piggybacked SQL injection payloads by appending malicious constructs to structurally valid TPC-H queries.
+- `synthetic_generator.py`: Generates execution performance anomalies based on the standard TPC-H relational schema.
+
+A fundamental requirement for both modules is the validation of execution plans using the MySQL `EXPLAIN` command, ensuring that all analyzed queries are syntactically and operationally valid within the target environment.
+
+## 2. Privacy-Aware Feature Engineering
+
+The feature extraction subsystem implements a deterministic pseudonymization protocol to ensure structural confidentiality for off-site telemetry.
+
+- `core_sql_anonymizer.py`: Implements the deterministic pseudonymization protocol. Literal values are masked using standardized tags, and schema identifiers (tables and columns) are hashed using SHA-256 truncated to eight hexadecimal characters. This ensures repeated structural elements yield identical pseudonyms without exposing proprietary schema information.
+- `data_anonymizer_aiops.py`: Applies the pseudonymization protocol systematically across the dataset.
+- `define_label.py`: Defines the composite labeling criteria based on structural rules (e.g., explicit SQL injection signatures, unauthorized Data Definition Language modifiers) and operational cost limits (e.g., query cost thresholds or unindexed table scans).
+- `dataset_setup.py`: Aggregates operational baselines and anomalies, applying the defined labels to construct the final dataset for model training.
+
+### Dataset Availability and Privacy Constraints
+
+To support reproducibility while adhering to strict data privacy requirements, this repository includes the processed dataset: `data/firewall_training_dataset_anonymized.csv`. This dataset is utilized directly by the machine learning classifiers. The raw operational logs (`data/firewall_training_dataset_raw.csv`) originate from internal enterprise database history and contain sensitive proprietary schemas and user data. Consequently, the raw logs cannot be publicly released. The provided anonymized dataset demonstrates the efficacy of the proposed deterministic pseudonymization protocol, allowing researchers to evaluate the model's performance without compromising organizational confidentiality.
+
+## 3. Empirical Feature Extraction Pipeline
+
+The feature representation integrates textual structure with operational cost analysis.
+
+- `feature_extractor.py`: Extracts the 11-dimensional feature vector consisting of 7 static structural features from the pseudonymized query and 4 dynamic execution metrics from the optimizer. It incorporates an automated discovery algorithm utilizing the `information_schema` to dynamically resolve target schemas for execution plan retrieval.
+- `pipline_data_collector.py`: Integrates historical ingestion, synthetic generation, and feature extraction into a unified data collection workflow.
+
+## 4. Model Training, Evaluation, and Latency Analysis
+
+The experimental setup evaluates the predictive performance of the machine learning component and quantifies the operational latency of the integrated architecture.
+
+- `training_experiment_core_2phases.py` (and the static variant): Implements data partitioning (Train, Validation, and Test sets), standardizes features using `StandardScaler`, and conducts hyperparameter optimization for the XGBoost model utilizing 5-fold cross-validation.
+- `pipeline_evaluator_2phases.py`: Simulates empirical inference to evaluate the integrated two-phase architecture against a single-phase baseline. To measure isolated algorithmic inference latency with microsecond precision, execution times are recorded directly on NumPy arrays, minimizing structural overhead from high-level data processing libraries.
+
+## Conclusion
+
+This repository provides a reproducible implementation of the proposed two-phase SQL anomaly detection pipeline. The codebase demonstrates the integration of deterministic screening, privacy-aware pseudonymization, and optimizer-aware feature extraction to identify anomalous database operations while adhering to the latency constraints required by inline security interceptors.
+
+## How to Cite
+
+If you utilize this methodology or the associated hybrid dataset in your research, please cite the original publication:
+
+Anonymous Authors. [A Two-Stage Privacy-Aware SQL Anomaly Detector for Inline Database Defense](https://example.com/placeholder-link). MAPR, 2026. doi: [placeholder-doi].
+
+```bibtex
+@inproceedings{mapr2026sqlfirewall,
+  title={A Two-Stage Privacy-Aware SQL Anomaly Detector for Inline Database Defense},
+  author={Anonymous Authors},
+  booktitle={Proceedings of the 2026 International Conference on Multimedia Analysis and Pattern Recognition (MAPR)},
+  year={2026},
+  doi={[placeholder-doi]},
+  url={[placeholder-link]}
+}
+```
