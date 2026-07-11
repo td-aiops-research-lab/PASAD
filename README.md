@@ -52,6 +52,70 @@ The experimental setup evaluates the predictive performance of the machine learn
 - `training_experiment_core_2phases.py` (and the static variant): Implements data partitioning (Train, Validation, and Test sets), standardizes features using `StandardScaler`, and conducts hyperparameter optimization for the XGBoost model utilizing 5-fold cross-validation.
 - `pipeline_evaluator_2phases.py`: Simulates empirical inference to evaluate the integrated two-phase architecture against a single-phase baseline. To measure isolated algorithmic inference latency with microsecond precision, execution times are recorded directly on NumPy arrays, minimizing structural overhead from high-level data processing libraries.
 
+## 5. Installation and Environment Setup
+
+The codebase has been developed and tested on Python 3.12, but it is broadly compatible with Python 3.9+.
+
+1. **Clone the repository:**
+   ```bash
+   git clone <repository_url>
+   cd mapr_for_reviewers
+   ```
+
+2. **Set up a virtual environment (Recommended):**
+   ```bash
+   python -m venv venv
+   # On Windows:
+   venv\Scripts\activate
+   # On macOS/Linux:
+   source venv/bin/activate
+   ```
+
+3. **Install dependencies:**
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+## 6. Running the Experiments
+
+To facilitate reproducibility, the experimental workflow is divided into two operational modes:
+
+### Mode A: Reproducing Results with the Anonymized Dataset (Recommended)
+This mode utilizes the provided `data/firewall_training_dataset_anonymized.csv` dataset out-of-the-box. It does not require a live MySQL database or environment variable configurations.
+
+1. **Model Training (Phase 2):**
+   Execute the core training script. This will perform data partitioning, feature scaling, baseline training, and XGBoost hyperparameter optimization using 5-fold cross-validation.
+   ```bash
+   python training_experiment_core_2phases.py
+   ```
+   *Outputs:* The trained XGBoost model, standard scaler, and precision-recall metrics will be exported to the `results_2phases/` directory. It also generates the independent `firewall_test_dataset.csv` for the next step.
+
+2. **Holistic Pipeline Evaluation:**
+   Run the end-to-end evaluator to simulate and compare the Two-Phase architecture against a Single-Phase baseline.
+   ```bash
+   python pipeline_evaluator_2phases.py
+   ```
+   *Outputs:* End-to-end traffic and latency distribution charts, and detailed evaluation metrics, saved in the `results_2phases/` directory.
+
+### Mode B: Full Data Ingestion Pipeline (Requires Live Database)
+If you wish to re-run the entire data synthesis and dynamic feature extraction process from scratch:
+
+1. **Database Configuration:**
+   Copy the `env-example` file to a new file named `.env` and fill in your MySQL database credentials:
+   ```env
+   DB_HOST=localhost
+   DB_USER=root
+   DB_PASSWORD=secret
+   DB_NAME=your_database
+   ```
+
+2. **Execute Data Collection:**
+   Run the pipeline data collector. This script executes real `EXPLAIN` commands on the database to extract dynamic metrics for each query, producing the raw dataset.
+   ```bash
+   python pipline_data_collector.py
+   ```
+   *Note:* The raw dataset will contain sensitive schemas and requires running `data_anonymizer_aiops.py` to be safely used/exported as the anonymized dataset.
+
 ## Conclusion
 
 This repository provides a reproducible implementation of the proposed two-phase SQL anomaly detection pipeline. The codebase demonstrates the integration of deterministic screening, privacy-aware pseudonymization, and optimizer-aware feature extraction to identify anomalous database operations while adhering to the latency constraints required by inline security interceptors.
