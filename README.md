@@ -59,7 +59,7 @@ The codebase has been developed and tested on Python 3.12, but it is broadly com
 1. **Clone the repository:**
    ```bash
    git clone <repository_url>
-   cd mapr_for_reviewers
+   cd PASAD
    ```
 
 2. **Set up a virtual environment (Recommended):**
