@@ -7,7 +7,7 @@ Description:
 
 Core Execution Pipeline:
     1. Standardized feature extraction via feature_extractor (MODEL_FEATURES).
-    2. Rigorous data partitioning: Train (70%), An auxiliary (15%), Test (15%).
+    2. Rigorous data partitioning: Train (70%), Validation (15%), Test (15%).
     3. Pipeline instantiation with StandardScaler for Baseline models (including DNN) and XGBoost.
     4. Hyperparameter optimization for XGBoost utilizing 5-Fold Cross-Validation.
     5. Objective evaluation on the hold-out Test set applying a fixed Threshold (0.50) 
