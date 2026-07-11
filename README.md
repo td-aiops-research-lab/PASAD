@@ -59,7 +59,7 @@ The codebase has been developed and tested on Python 3.12, but it is broadly com
 1. **Clone the repository:**
    ```bash
    git clone <repository_url>
-   cd PASAD
+   cd mapr_for_reviewers
    ```
 
 2. **Set up a virtual environment (Recommended):**
@@ -109,12 +109,33 @@ If you wish to re-run the entire data synthesis and dynamic feature extraction p
    DB_NAME=your_database
    ```
 
-2. **Execute Data Collection:**
-   Run the pipeline data collector. This script executes real `EXPLAIN` commands on the database to extract dynamic metrics for each query, producing the raw dataset.
+2. **Populate Baseline Database:**
+   Generate the TPC-H compliant dataset records to serve as the baseline database for the optimizer.
+   ```bash
+   python tpch_generator_sql.py
+   ```
+   *(Import the generated `.sql` artifact into your MySQL database before proceeding).*
+
+3. **Data Preprocessing & Labeling:**
+   Process the initial raw query logs (`digest_text_with_samples.csv`) to aggregate composite structural labels.
+   ```bash
+   python dataset_setup.py
+   ```
+   *Outputs:* `dataset_labeled_final.csv`.
+
+4. **Data Synthesis and Dynamic Feature Extraction:**
+   Run the pipeline data collector. This script synthesizes TPC-H performance anomalies and SQL injection payloads, then executes real `EXPLAIN` commands on the database to extract dynamic metrics.
    ```bash
    python pipline_data_collector.py
    ```
-   *Note:* The raw dataset will contain sensitive schemas and requires running `data_anonymizer_aiops.py` to be safely used/exported as the anonymized dataset.
+   *Outputs:* `data/firewall_training_dataset_raw.csv`.
+
+5. **Data Pseudonymization:**
+   To ensure privacy and sanitize sensitive schema definitions from the raw dataset, run the anonymizer:
+   ```bash
+   python data_anonymizer_aiops.py
+   ```
+   *Outputs:* `data/firewall_training_dataset_anonymized.csv` (which can now be used in Mode A).
 
 ## Conclusion
 
