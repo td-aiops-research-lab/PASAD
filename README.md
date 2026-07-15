@@ -7,7 +7,7 @@
 > *Proceedings of the 2026 International Conference on Multimedia Analysis and Pattern Recognition (MAPR)*
 
 <p align="center">
-  <img src="Framework.png" alt="Framework Architecture" width="500">
+  <img src="Framework.png" alt="Framework Architecture" width="400">
 </p>
 
 ## Abstract
@@ -96,14 +96,14 @@ This mode utilizes the provided `data/firewall_training_dataset_anonymized.csv` 
 1. **Model Training (Phase 2):**
    Execute the core training script. This will perform data partitioning, feature scaling, baseline training, and XGBoost hyperparameter optimization using 5-fold cross-validation.
    ```bash
-   python training_experiment_core_2phases.py
+   python src/training_experiment_core_2phases.py
    ```
    *Outputs:* The trained XGBoost model, standard scaler, and precision-recall metrics will be exported to the `results_2phases/` directory. It also generates the independent `firewall_test_dataset.csv` for the next step.
 
 2. **Holistic Pipeline Evaluation:**
    Run the end-to-end evaluator to simulate and compare the Two-Phase architecture against a Single-Phase baseline.
    ```bash
-   python pipeline_evaluator_2phases.py
+   python src/pipeline_evaluator_2phases.py
    ```
    *Outputs:* End-to-end traffic and latency distribution charts, and detailed evaluation metrics, saved in the `results_2phases/` directory.
 
@@ -122,28 +122,28 @@ If you wish to re-run the entire data synthesis and dynamic feature extraction p
 2. **Populate Baseline Database:**
    Generate the TPC-H compliant dataset records to serve as the baseline database for the optimizer.
    ```bash
-   python tpch_generator_sql.py
+   python src/tpch_generator_sql.py
    ```
    *(Import the generated `.sql` artifact into your MySQL database before proceeding).*
 
 3. **Data Preprocessing & Labeling:**
-   Process the initial raw query logs (`digest_text_with_samples.csv`) to aggregate composite structural labels.
+   Process the initial raw query logs (`data/digest_text_with_samples.csv`) to aggregate composite structural labels.
    ```bash
-   python dataset_setup.py
+   python src/dataset_setup.py
    ```
-   *Outputs:* `dataset_labeled_final.csv`.
+   *Outputs:* `data/dataset_labeled_final.csv`.
 
 4. **Data Synthesis and Dynamic Feature Extraction:**
    Run the pipeline data collector. This script synthesizes TPC-H performance anomalies and SQL injection payloads, then executes real `EXPLAIN` commands on the database to extract dynamic metrics.
    ```bash
-   python pipline_data_collector.py
+   python src/pipline_data_collector.py
    ```
    *Outputs:* `data/firewall_training_dataset_raw.csv`.
 
 5. **Data Pseudonymization:**
    To ensure privacy and sanitize sensitive schema definitions from the raw dataset, run the anonymizer:
    ```bash
-   python data_anonymizer_aiops.py
+   python src/data_anonymizer_aiops.py
    ```
    *Outputs:* `data/firewall_training_dataset_anonymized.csv` (which can now be used in Mode A).
 

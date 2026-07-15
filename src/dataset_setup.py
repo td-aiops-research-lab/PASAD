@@ -58,9 +58,12 @@ def apply_labeling_functions(df):
 
     return df
 
+import os
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 if __name__ == "__main__":
-    INPUT_FILE = "digest_text_with_samples.csv"
-    OUTPUT_FILE = "dataset_labeled_final.csv"
+    INPUT_FILE = os.path.join(BASE_DIR, "data", "digest_text_with_samples.csv")
+    OUTPUT_FILE = os.path.join(BASE_DIR, "data", "dataset_labeled_final.csv")
 
     try:
         df_raw = pd.read_csv(INPUT_FILE)

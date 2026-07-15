@@ -192,12 +192,13 @@ def plot_and_report_results(df, results_dir):
 # MAIN EXECUTION
 # =====================================================================
 
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 if __name__ == "__main__":
-    # PREREQUISITE: Requires a test dataset containing extracted feature columns.
-    # In a production environment, modify TEST_CSV to target your hold-out test set.
-    TEST_CSV = "results_2phases/firewall_test_dataset.csv"  
-    MODEL_PATH = "results_2phases/xgboost_phase2.json"
-    RESULTS_DIR = "results_2phases"
+    # Ensure artifacts from training exist
+    TEST_CSV = os.path.join(BASE_DIR, "results_2phases", "firewall_test_dataset.csv")  
+    MODEL_PATH = os.path.join(BASE_DIR, "results_2phases", "xgboost_phase2.json")
+    RESULTS_DIR = os.path.join(BASE_DIR, "results_2phases")
     
     print("[INFO] Initializing the AI Firewall evaluation pipeline (Two-Phase Architecture)...")
     

@@ -22,13 +22,16 @@ load_dotenv()
 
 FEATURES = MODEL_FEATURES + ["soft_label", "hard_label", "explain_status"]
 
+import os
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 def main():
     print("=" * 60)
     print("PHASE 1: INGEST LABELED DATASET & SYNTHESIZE TPC-H EMPIRICAL DATA")
     print("=" * 60)
     
     # 1. Ingest historical MySQL query data
-    historical_file = "dataset_labeled_final.csv"
+    historical_file = os.path.join(BASE_DIR, "data", "dataset_labeled_final.csv")
     if os.path.exists(historical_file):
         df_history = pd.read_csv(historical_file)
         df_history["source"] = "MySQL_Digest_History"
@@ -59,8 +62,8 @@ def main():
     print("=" * 60)
 
     processed_data = []
-    skipped_count = 0
-    output_csv = "data/firewall_training_dataset_raw.csv"
+    # 5. Persist to data directory
+    output_csv = os.path.join(BASE_DIR, "data", "firewall_training_dataset_raw.csv")
 
     for _, row in tqdm(df_all.iterrows(), total=len(df_all), desc="Processing Features"):
         sql_sample = str(row.get("SQL_query_sample", row.get("DIGEST_TEXT", "")))

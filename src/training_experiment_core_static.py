@@ -1,12 +1,12 @@
 """
-File: training_experiment_core_2phases.py
+File: training_experiment_core_static.py
 Description: 
     Training and evaluation script for the classification model (Phase 2 - AI Firewall).
     Engineered strictly adhering to scientific MLOps standards, ensuring 100% 
     logical synchronization with pipeline_evaluator.py.
 
 Core Execution Pipeline:
-    1. Standardized feature extraction via feature_extractor (MODEL_FEATURES).
+    1. Standardized feature extraction (Explicitly defined MODEL_FEATURES).
     2. Rigorous data partitioning: Train (70%), Validation (15%), Test (15%).
     3. Pipeline instantiation with StandardScaler for Baseline models (including DNN) and XGBoost.
     4. Hyperparameter optimization for XGBoost utilizing 5-Fold Cross-Validation.
@@ -35,15 +35,22 @@ from sklearn.metrics import f1_score, matthews_corrcoef, precision_recall_curve,
 from sklearn.preprocessing import StandardScaler
 from sklearn.pipeline import Pipeline
 
-# Import the standardized feature set from the system configuration
-from feature_extractor import MODEL_FEATURES
+# # Import the standardized feature set from the system configuration
+# from feature_extractor import MODEL_FEATURES
+
+MODEL_FEATURES = [
+    "query_length", "num_joins", "num_subqueries", "has_wildcard", "has_union",
+    "has_groupby_orderby", "has_comment"
+]
 
 warnings.filterwarnings("ignore")
 
 # =====================================================================
 # 1. EXPERIMENTAL CONFIGURATION
 # =====================================================================
-RESULTS_DIR = "results_2phases"
+import os
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+RESULTS_DIR = os.path.join(BASE_DIR, "results_2phases_static")
 os.makedirs(RESULTS_DIR, exist_ok=True)
 
 # Fixed EVALUATION_THRESHOLD to ensure absolute synchronization with pipeline_evaluator.py
@@ -235,7 +242,7 @@ def export_results(results, pr_curves, best_xgb_pipeline):
 # =====================================================================
 if __name__ == "__main__":
     # Load the cryptographically anonymized preprocessed dataset
-    DATA_FILE = "data/firewall_training_dataset_anonymized.csv"
+    DATA_FILE = os.path.join(BASE_DIR, "data", "firewall_training_dataset_anonymized.csv")
     
     if not os.path.exists(DATA_FILE):
         print(f"[ERROR] Dataset not found: {DATA_FILE}")

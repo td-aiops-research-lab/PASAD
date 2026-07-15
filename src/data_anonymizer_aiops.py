@@ -66,9 +66,12 @@ def process_dataset_anonymization(input_csv, output_csv):
     print("=" * 70 + "\n")
 
 
+import os
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 if __name__ == "__main__":
-    # Read from the labeled dataset generated in the previous step
-    INPUT_FILE = "data/firewall_training_dataset_raw.csv"
-    OUTPUT_FILE = "data/firewall_training_dataset_anonymized.csv"
+    print("[INFO] Starting anonymization process for firewall training dataset...")
+    INPUT_FILE = os.path.join(BASE_DIR, "data", "firewall_training_dataset_raw.csv")
+    OUTPUT_FILE = os.path.join(BASE_DIR, "data", "firewall_training_dataset_anonymized.csv")
 
     process_dataset_anonymization(INPUT_FILE, OUTPUT_FILE)

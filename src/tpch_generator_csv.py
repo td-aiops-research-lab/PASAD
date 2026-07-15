@@ -114,18 +114,18 @@ def gen_lineitem():
 if __name__ == "__main__":
     print("[INFO] Initiating TPC-H compliant mock data synthesis pipeline...")
     
-    generate_csv('region.csv', ['r_regionkey', 'r_name', 'r_comment'], gen_region(), NUM_REGION)
-    generate_csv('nation.csv', ['n_nationkey', 'n_name', 'n_regionkey', 'n_comment'], gen_nation(), NUM_NATION)
-    generate_csv('part.csv', ['p_partkey', 'p_name', 'p_mfgr', 'p_brand', 'p_type', 'p_size', 'p_container', 'p_retailprice', 'p_comment'], gen_part(), NUM_PART)
-    generate_csv('supplier.csv', ['s_suppkey', 's_name', 's_address', 's_nationkey', 's_phone', 's_acctbal', 's_comment'], gen_supplier(), NUM_SUPPLIER)
-    generate_csv('customer.csv', ['c_custkey', 'c_name', 'c_address', 'c_nationkey', 'c_phone', 'c_acctbal', 'c_mktsegment', 'c_comment'], gen_customer(), NUM_CUSTOMER)
-    generate_csv('orders.csv', ['o_orderkey', 'o_custkey', 'o_orderstatus', 'o_totalprice', 'o_orderdate', 'o_orderpriority', 'o_clerk', 'o_shippriority', 'o_comment'], gen_orders(), NUM_ORDERS)
-    generate_csv('lineitem.csv', ['l_orderkey', 'l_partkey', 'l_suppkey', 'l_linenumber', 'l_quantity', 'l_extendedprice', 'l_discount', 'l_tax', 'l_returnflag', 'l_linestatus', 'l_shipdate', 'l_commitdate', 'l_receiptdate', 'l_shipinstruct', 'l_shipmode', 'l_comment'], gen_lineitem(), NUM_LINEITEM)
+    generate_csv('data/region.csv', ['r_regionkey', 'r_name', 'r_comment'], gen_region(), NUM_REGION)
+    generate_csv('data/nation.csv', ['n_nationkey', 'n_name', 'n_regionkey', 'n_comment'], gen_nation(), NUM_NATION)
+    generate_csv('data/part.csv', ['p_partkey', 'p_name', 'p_mfgr', 'p_brand', 'p_type', 'p_size', 'p_container', 'p_retailprice', 'p_comment'], gen_part(), NUM_PART)
+    generate_csv('data/supplier.csv', ['s_suppkey', 's_name', 's_address', 's_nationkey', 's_phone', 's_acctbal', 's_comment'], gen_supplier(), NUM_SUPPLIER)
+    generate_csv('data/customer.csv', ['c_custkey', 'c_name', 'c_address', 'c_nationkey', 'c_phone', 'c_acctbal', 'c_mktsegment', 'c_comment'], gen_customer(), NUM_CUSTOMER)
+    generate_csv('data/orders.csv', ['o_orderkey', 'o_custkey', 'o_orderstatus', 'o_totalprice', 'o_orderdate', 'o_orderpriority', 'o_clerk', 'o_shippriority', 'o_comment'], gen_orders(), NUM_ORDERS)
+    generate_csv('data/lineitem.csv', ['l_orderkey', 'l_partkey', 'l_suppkey', 'l_linenumber', 'l_quantity', 'l_extendedprice', 'l_discount', 'l_tax', 'l_returnflag', 'l_linestatus', 'l_shipdate', 'l_commitdate', 'l_receiptdate', 'l_shipinstruct', 'l_shipmode', 'l_comment'], gen_lineitem(), NUM_LINEITEM)
 
     print("\n[SUCCESS] Synthesis pipeline completed.")
     print("[INFO] Execute the following SQL directive within the MySQL environment for data ingestion (adjust the file path accordingly):")
     print("""
-    LOAD DATA LOCAL INFILE 'customer.csv' 
+    LOAD DATA LOCAL INFILE 'data/customer.csv'
     INTO TABLE customer 
     FIELDS TERMINATED BY ',' 
     ENCLOSED BY '"'
