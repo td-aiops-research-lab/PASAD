@@ -1,6 +1,8 @@
 # A Two-Stage Privacy-Aware SQL Anomaly Detector for Inline Database Defense
 
-[![Paper](https://img.shields.io/badge/Paper-MAPR_2026-blue)](https://mapr.uit.edu.vn/)
+<a href="https://mapr.uit.edu.vn/" target="_blank" title="Proceed to MAPR 202">
+  <img src="https://img.shields.io/badge/Paper-MAPR_2026-blue" alt="Paper" />
+</a>
 
 > **[A Two-Stage Privacy-Aware SQL Anomaly Detector for Inline Database Defense](https://example.com/placeholder-link)**  
 > Thanh-Tan Doan and Hung-Nghiep Tran  
