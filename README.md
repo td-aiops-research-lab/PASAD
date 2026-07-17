@@ -70,7 +70,7 @@ The codebase has been developed and tested on Python 3.12, but it is broadly com
 
 1. **Clone the repository:**
    ```bash
-   git clone [<repository_url>](https://github.com/td-aiops-research-lab/PASAD.git)
+   git clone https://github.com/td-aiops-research-lab/PASAD.git
    cd PASAD
    ```
 
