@@ -157,7 +157,7 @@ This repository provides a reproducible implementation of the proposed two-phase
 
 If you utilize this methodology or the associated hybrid dataset in your research, please cite the original publication:
 
-Thanh-Tan Doan and Hung-Nghiep Tran. [A Two-Stage Privacy-Aware SQL Anomaly Detector for Inline Database Defense](https://example.com/placeholder-link). MAPR, 2026. doi: [placeholder-doi].
+Thanh-Tan Doan and Hung-Nghiep Tran. [A Two-Stage Privacy-Aware SQL Anomaly Detector for Inline Database Defense](https://ieeexplore.ieee.org/document/11685688). MAPR, 2026. doi: 10.1109/MAPR72750.2026.11685688.
 
 ```bibtex
 @inproceedings{mapr2026sqlfirewall,
@@ -165,7 +165,7 @@ Thanh-Tan Doan and Hung-Nghiep Tran. [A Two-Stage Privacy-Aware SQL Anomaly Dete
   author={Thanh-Tan Doan and Hung-Nghiep Tran},
   booktitle={Proceedings of the 2026 International Conference on Multimedia Analysis and Pattern Recognition (MAPR)},
   year={2026},
-  doi={[placeholder-doi]},
-  url={[placeholder-link]}
+  doi={10.1109/MAPR72750.2026.11685688},
+  url={https://ieeexplore.ieee.org/document/11685688}
 }
 ```
