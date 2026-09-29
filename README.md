@@ -160,12 +160,16 @@ If you utilize this methodology or the associated hybrid dataset in your researc
 Thanh-Tan Doan and Hung-Nghiep Tran. [A Two-Stage Privacy-Aware SQL Anomaly Detector for Inline Database Defense](https://ieeexplore.ieee.org/document/11685688). MAPR, 2026. doi: 10.1109/MAPR72750.2026.11685688.
 
 ```bibtex
-@inproceedings{mapr2026sqlfirewall,
-  title={A Two-Stage Privacy-Aware SQL Anomaly Detector for Inline Database Defense},
-  author={Thanh-Tan Doan and Hung-Nghiep Tran},
-  booktitle={Proceedings of the 2026 International Conference on Multimedia Analysis and Pattern Recognition (MAPR)},
+@INPROCEEDINGS{11685688,
+  author={Doan, Thanh-Tan and Tran, Hung-Nghiep},
+  booktitle={2026 International Conference on Multimedia Analysis and Pattern Recognition (MAPR)}, 
+  title={A Two-Stage Privacy-Aware SQL Anomaly Detector for Inline Database Defense}, 
   year={2026},
-  doi={10.1109/MAPR72750.2026.11685688},
-  url={https://ieeexplore.ieee.org/document/11685688}
+  volume={},
+  number={},
+  pages={514-519},
+  keywords={Modeling;Machine learning;Databases;Costing;Costs;Planning;Printing;Structured Query Language;Bars;Machining;SQL anomaly detection;database security;query execution plan;data pseudonymization;database firewall;XGBoost classifier},
+  doi={10.1109/MAPR72750.2026.11685688}
 }
+
 ```
