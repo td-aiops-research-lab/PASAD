@@ -4,7 +4,7 @@
   <img src="https://img.shields.io/badge/Paper-MAPR_2026-blue" alt="Paper" />
 </a>
 
-> **[A Two-Stage Privacy-Aware SQL Anomaly Detector for Inline Database Defense](https://example.com/placeholder-link)**  
+> **[A Two-Stage Privacy-Aware SQL Anomaly Detector for Inline Database Defense](https://ieeexplore.ieee.org/document/11685688)**  
 > Thanh-Tan Doan and Hung-Nghiep Tran  
 > *Proceedings of the 2026 International Conference on Multimedia Analysis and Pattern Recognition (MAPR)*
 
